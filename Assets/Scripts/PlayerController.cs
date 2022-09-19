@@ -8,10 +8,14 @@ public class PlayerController : MonoBehaviour {
     public float jumpForce = 2.0f;
 
     public bool isGrounded;
+    public GameObject gameOverPanel;
     Rigidbody rb;
+
     void Start(){
         rb = GetComponent<Rigidbody>();
         jump = new Vector3(0.0f, 2.0f, 0.0f);
+
+        gameOverPanel.SetActive(false);
     }
 
     void OnCollisionStay(){
@@ -24,5 +28,14 @@ public class PlayerController : MonoBehaviour {
             isGrounded = false;
         }
 		Debug.Log(Data.score);
+    }
+
+     private void OnCollisionEnter(Collision other) 
+    {
+        if (other.gameObject.tag.Equals("Obstacle"))
+        {
+            gameOverPanel.SetActive(true);
+            Data.isGameOver = true;
+        }
     }
 }

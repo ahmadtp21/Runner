@@ -16,7 +16,7 @@ public class ScoreObstacle : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
     {
-		if(other.gameObject.CompareTag ("Obstacle"))
+		if(other.gameObject.CompareTag ("Obstacle") && !Data.isGameOver)
 		{
         	Data.score++;
 		}
