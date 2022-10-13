@@ -1,41 +1,40 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
+    public float jumpForce;
+    public float horizontalVelocity;
 
-	public Vector3 jump;
-    public float jumpForce = 2.0f;
-
-    public bool isGrounded;
-    public GameObject gameOverPanel;
-    Rigidbody rb;
-
-    void Start(){
-        rb = GetComponent<Rigidbody>();
-        jump = new Vector3(0.0f, 2.0f, 0.0f);
-
-        gameOverPanel.SetActive(false);
-    }
-
-    void OnCollisionStay(){
-        isGrounded = true;
-    }
-
-    void Update(){
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded){
-            rb.AddForce(jump * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
-        }
-		Debug.Log(Data.score);
-    }
-
-     private void OnCollisionEnter(Collision other) 
+    // Start is called before the first frame update
+    void Start()
     {
-        if (other.gameObject.tag.Equals("Obstacle"))
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown("space"))
         {
-            gameOverPanel.SetActive(true);
-            Data.isGameOver = true;
+            this.GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0));
         }
+    }
+
+    void FixedUpdate()
+    {
+        this.GetComponent<Rigidbody>().velocity = new Vector3(
+            horizontalVelocity * Time.deltaTime,
+            this.GetComponent<Rigidbody>().velocity.y,
+            this.GetComponent<Rigidbody>().velocity.z);
+    }
+
+    void OnTriggerEnter(Collider other) 
+    {
+        if(other.gameObject.GetComponent<ObstacleController>() != null)
+        {
+            GameObject.Destroy(this.gameObject);
+        } 
     }
 }
