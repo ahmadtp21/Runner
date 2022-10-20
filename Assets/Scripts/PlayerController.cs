@@ -23,11 +23,11 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update(){
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded){
+        if(Input.GetKeyDown(KeyCode.Space)){
             rb.AddForce(jump * jumpForce, ForceMode.Impulse);
             isGrounded = false;
+            Physics.gravity *= -1;
         }
-		Debug.Log(Data.score);
     }
 
      private void OnCollisionEnter(Collision other) 

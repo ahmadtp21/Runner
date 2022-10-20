@@ -9,5 +9,6 @@ public class SceneLoader : MonoBehaviour {
     {
         SceneManager.LoadScene(sceneOrder);
         Data.score = 0;
+        Data.isGameOver = false;
     }
 }
